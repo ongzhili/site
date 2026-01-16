@@ -5,11 +5,13 @@ import MainContent from './components/maincontent';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import Sidebar from './components/sidebar';
 
-function MainContentWrapper() {
-    const { filePath } = useParams();
-    const url = `https://raw.githubusercontent.com/ongzhili/Study-Notes/main/${filePath}`;
-    return <MainContent url={url} />;
+function createMainContentWrapper(basePath) {
+    return function MainContentWrapper() {
+        const { filePath } = useParams();
+        return <MainContent url={`${basePath}/${filePath}`} />;
+    };
 }
+const NotesWrapper = createMainContentWrapper('content/notes');
 
 function App() {
   return (
@@ -20,8 +22,8 @@ function App() {
         <div className="mainLayout">
           <Sidebar />
           <Routes>
-            <Route path="/" element={<MainContent url={`${import.meta.env.BASE_URL}content/articles/welcomepage.md`}/>} />
-            <Route path="view/:filePath" element={<MainContentWrapper />} />
+            <Route path="/" element={<MainContent url={`content/articles/welcomepage.md`}/>} />
+            <Route path="notes/:filePath" element={<NotesWrapper />} />
           </Routes>
         </div>
       </div>
