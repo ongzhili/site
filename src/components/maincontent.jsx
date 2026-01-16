@@ -10,18 +10,19 @@ const markdownModules = import.meta.glob('/public/content/**/*.md', { as: 'raw' 
 
 function CustomImage({ src, alt, currentFilePath }) {
     let resolvedSrc = src;
+    const BASE_URL = import.meta.env.BASE_URL || '/site/';
     
     // If src is relative (doesn't start with http or /), resolve it relative to the markdown file
     if (src && !src.startsWith('http') && !src.startsWith('/')) {
         const fileDir = currentFilePath.substring(0, currentFilePath.lastIndexOf('/'));
-        resolvedSrc = `${import.meta.env.BASE_URL}${fileDir}/${src}`;
+        resolvedSrc = `${BASE_URL}${fileDir}/${src}`;
         console.log(`Resolved relative image: ${src} -> ${resolvedSrc}`);
     } else if (src && !src.startsWith('http')) {
         // If it starts with /, resolve it from content root
-        resolvedSrc = `${import.meta.env.BASE_URL}content${src}`;
+        resolvedSrc = `${BASE_URL}content${src}`;
     }
     
-    console.log("Image src:", src, "Resolved:", resolvedSrc);
+    console.log("Image src:", src, "Resolved:", resolvedSrc, "BASE_URL:", BASE_URL);
     return <img src={resolvedSrc} alt={alt} />;
 }
 
