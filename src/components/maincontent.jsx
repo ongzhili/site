@@ -6,7 +6,6 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
-const MARKDOWN_RELATIVE_PATH = "/public/content/";
 const markdownModules = import.meta.glob('/public/content/**/*.md', { as: 'raw' });
 
 function CustomImage({ src, alt, currentFilePath }) {
@@ -15,16 +14,17 @@ function CustomImage({ src, alt, currentFilePath }) {
     // If src is relative (doesn't start with http or /), resolve it relative to the markdown file
     if (src && !src.startsWith('http') && !src.startsWith('/')) {
         const fileDir = currentFilePath.substring(0, currentFilePath.lastIndexOf('/'));
-        resolvedSrc = `${MARKDOWN_RELATIVE_PATH}${fileDir}/${src}`;
+        resolvedSrc = `/site/public/${fileDir}/${src}`;
         console.log(`Resolved relative image: ${src} -> ${resolvedSrc}`);
     } else if (src && !src.startsWith('http')) {
         // If it starts with /, resolve it from content root
-        resolvedSrc = `${MARKDOWN_RELATIVE_PATH}${src}`;
+        resolvedSrc = `/content${src}`;
     }
     
     console.log("Image src:", src, "Resolved:", resolvedSrc);
     return <img src={resolvedSrc} alt={alt} />;
 }
+
 
 export default function MainContent({ url }) {
     const [markdown, setMarkdown] = useState("");
@@ -32,6 +32,7 @@ export default function MainContent({ url }) {
 
     useEffect(() => {
         console.log("MainContent received url:", url);
+        setCurrentFilePath(url);
         
         const modulePath = `/public/${url}`;
         console.log("Looking for module:", modulePath);
