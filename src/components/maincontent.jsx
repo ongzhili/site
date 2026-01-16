@@ -14,7 +14,7 @@ function CustomImage({ src, alt, currentFilePath }) {
     // If src is relative (doesn't start with http or /), resolve it relative to the markdown file
     if (src && !src.startsWith('http') && !src.startsWith('/')) {
         const fileDir = currentFilePath.substring(0, currentFilePath.lastIndexOf('/'));
-        resolvedSrc = `/site/public/${fileDir}/${src}`;
+        resolvedSrc = `/${fileDir}/${src}`;
         console.log(`Resolved relative image: ${src} -> ${resolvedSrc}`);
     } else if (src && !src.startsWith('http')) {
         // If it starts with /, resolve it from content root
