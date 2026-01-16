@@ -1,0 +1,3 @@
+[submodule "public/content/notes"]
+	path = public/content/notes
+	url = https://github.com/ongzhili/Study-Notes.git
