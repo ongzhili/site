@@ -6,7 +6,10 @@ const LOGO_URL = `${import.meta.env.BASE_URL}content/images/portrait.png`;
 const MARKDOWN_RELATIVE_PATH = "/public/content/notes/";
 
 // Get all markdown files from the submodule
-const markdownFiles = import.meta.glob('/public/content/notes/**/*.md', { eager: false });
+const notes = import.meta.glob(
+  "/content/notes/**/*.md",
+  { as: "raw" }
+);
 
 function SocialLinks() {
     return (
